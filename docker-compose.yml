@@ -1,0 +1,40 @@
+# Purpose -> Define and share multi-container applications
+# Adv -> Define application stack in a file, keep it at the root of project repo
+  # So others can easily enable contribute to your project
+  # Someone would just need to clone repository and start the app using Compose
+
+
+# Key terms
+  # Container -> Isolated processes for each of your app's components
+    # Component could be the frontend (React), backend, database...
+    # Properties:
+      # Self-contained -> each container has everything it needs to function
+      # isolated (minimal effect on host/other services), independent, portable (run anywhere)
+  # Images -> Standardised package that includes all files/libraries/binaries/config to run container
+    # So are read only templates that contain instructions for creating container
+    # Properties:
+      # Immutable -> once image created, it can not be modified. Need to add new images
+      # Container images are composed of layers
+        # Layers represent a set of file system changes that add/remove/modify files
+  # Registry -> Centralised location that stores and manages container images
+    # Repositry -> Collection of related container images within a registry   
+  # Docker Compose -> Defines all containers and their configurations in a single YAML file
+    # If included in git repo: anyone cn clonse it and get it up and running with single command
+
+
+    
+services:
+  postgres:
+    image: postgres:16 
+    container_name: osrs-market-tracker-db
+    environment:
+      POSTGRES_DB: osrs_market_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
