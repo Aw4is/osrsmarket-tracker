@@ -1,6 +1,5 @@
-# We want it so that the configuration is loaded once and reused consistently rather than reconsutrcting it completely
-
-from fastapi import FastAPI
+from typing import Annotated
+from fastapi import Depends, FastAPI, HTTPException, Query
 
 from app.config.settings import get_settings
 
@@ -8,7 +7,3 @@ from app.config.settings import get_settings
 
 app = FastAPI()
 
-
-
-test = get_settings()
-print(test)
