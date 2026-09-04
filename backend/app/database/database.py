@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from app.config.settings import get_settings
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 # General Terms:
     # Transaction -> Group of queries, that either compelete entirely or fail completely
@@ -72,5 +72,17 @@ class Base(DeclarativeBase):
 
 # Create a Session factory -> Can call later whenever a request needs one 
 SessionLocal = sessionmaker(bind=engine)
+
+# ---- Dependency ---- #
+# Uses DI to provide DB session for endpoint (like Get /items)
+
+# A FastAPI dependency is a function that returns a value
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
 
 
